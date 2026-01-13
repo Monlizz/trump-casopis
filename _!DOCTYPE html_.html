@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Návrh Sportovního Časopisu - Trump Edice Final</title>
+    <style>
+        /* Import fontů pro vzhled časopisu */
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&family=Roboto+Condensed:wght@700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 40px;
+            background-color: #2c2c2c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Kontejner samotné obálky */
+        .magazine-cover {
+            width: 600px; /* Pevná šířka pro simulaci A4 poměru */
+            height: 800px;
+            position: relative;
+            background-image: url('https://i.guim.co.uk/img/media/6f18cd1bd842ae974e25d71a6b33d735bf7d5e50/0_219_5812_3487/master/5812.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=ecf1d13ddca009bec58228ac234c2aea');
+            background-size: cover;
+            /* Zarovnání vlevo nahoru zajistí, že je Trump vidět */
+            background-position: right top;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #000;
+        }
+
+        /* Tmavý gradient vespod, aby byl text čitelný */
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+        }
+
+        /* --- HLAVIČKA (MASTHEAD) --- */
+        .masthead {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .brand {
+            font-family: 'Anton', sans-serif;
+            font-size: 130px;
+            line-height: 0.9;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: -5px;
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.6);
+            margin: 0;
+        }
+
+        .brand span {
+            color: #e63946; /* Červená pro zvýraznění */
+        }
+
+        .issue-info {
+            background-color: #000;
+            color: #fff;
+            display: inline-block;
+            padding: 5px 20px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: -10px;
+            position: relative;
+        }
+
+        /* --- HLAVNÍ ČLÁNEK --- */
+        .main-story {
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            z-index: 3;
+            /* Omezená šířka, aby text nelezl do čárového kódu vpravo dole */
+            max-width: 460px; 
+        }
+
+        .main-headline {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 85px;
+            line-height: 0.9;
+            color: #f1faee;
+            text-transform: uppercase;
+            margin: 0;
+            text-shadow: 3px 3px 0px #000, 5px 5px 15px rgba(0,0,0,0.9);
+            font-style: italic;
+        }
+
+        .main-headline span {
+            color: #ffd700; /* Zlatá barva */
+            display: block;
+        }
+
+        .sub-headline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            background-color: #e63946;
+            display: inline-block;
+            padding: 8px 15px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+        /* --- TEASERY (POSTRANNÍ ČLÁNKY) --- */
+        .teasers-right {
+            position: absolute;
+            top: 180px;
+            right: 20px;
+            z-index: 3;
+            text-align: right;
+        }
+
+        .teaser-item {
+            margin-bottom: 30px;
+        }
+
+        .teaser-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 32px;
+            color: #fff;
+            text-transform: uppercase;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            margin: 0;
+        }
+
+        .teaser-title span {
+            color: #a8dadc;
+        }
+
+        .teaser-desc {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            color: #ddd;
+            background: rgba(0,0,0,0.7);
+            padding: 2px 8px;
+            display: inline-block;
+        }
+
+        /* --- EXTRA PRVKY --- */
+        .sticker {
+            position: absolute;
+            top: 200px;
+            left: 20px;
+            width: 110px;
+            height: 110px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: rotate(-15deg);
+            border: 3px solid #fff;
+        }
+
+        .sticker p {
+            font-family: 'Anton', sans-serif;
+            font-size: 22px;
+            color: #000;
+            line-height: 1;
+            margin: 0;
+        }
+
+        /* Styl pro nový obrázkový čárový kód */
+        .barcode-container {
+            position: absolute;
+            bottom: 10px; /* Úplně u spodního okraje */
+            right: 10px;  /* Úplně u pravého okraje */
+            z-index: 3;
+            background-color: #fff;
+            padding: 4px; /* Menší padding */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .barcode-container img {
+            display: block;
+            max-width: 90px; /* Zmenšená velikost */
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="magazine-cover">
+        <div class="overlay"></div>
+
+        <div class="masthead">
+            <h1 class="brand">GOLF<span>PRO</span></h1>
+            <div class="issue-info">LEDEN 2026 | CENA 99 KČ | VYDÁNÍ Č. 45</div>
+        </div>
+
+        <div class="sticker">
+            <p>EXKLUZIVNÍ<br>ROZHOVOR</p>
+        </div>
+
+        <div class="teasers-right">
+            <div class="teaser-item">
+                <h2 class="teaser-title">MISTRŮV<br><span>ŠVIH</span></h2>
+                <div class="teaser-desc">ANALÝZA TECHNIKY</div>
+            </div>
+            <div class="teaser-item">
+                <h2 class="teaser-title">TOP 10<br>HŘIŠŤ</h2>
+                <div class="teaser-desc">KAM VYRAZIT V LÉTĚ</div>
+            </div>
+            <div class="teaser-item">
+                <h2 class="teaser-title">NOVÁ<br>VÝBAVA</h2>
+                <div class="teaser-desc">RECENZE DRIVERŮ 2026</div>
+            </div>
+        </div>
+
+        <div class="main-story">
+            <h2 class="main-headline">
+                TRUMP & GOLF:<br>
+                <span>MOCENSKÁ HRA</span>
+            </h2>
+            <div class="sub-headline">JAK PREZIDENT VYUŽÍVÁ SPORT V POLITICE A BYZNYSU</div>
+        </div>
+
+        <div class="barcode-container">
+            <img src="https://www.cognex.com/BarcodeGenerator/Content/images/isbn.png" alt="ISBN Barcode">
+        </div>
+    </div>
+    
+    <div style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+        <iframe 
+            width="1" 
+            height="1" 
+            src="https://www.youtube.com/embed/yw_LlM6s5aI?autoplay=1&loop=1&playlist=yw_LlM6s5aI&controls=0" 
+            title="YouTube audio" 
+            frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+</body>
+</html>
